@@ -1,5 +1,5 @@
 # HPpotter  
-A Tera-proxy module that automatically uses a *Prime Recovery Potable* when below 30% HP.  
+A Tera-proxy module that automatically uses a *Prime Recovery Potable* when below 33% HP.  
 Only uses items when you are alive and in combat.  
   
 ## Usage  
