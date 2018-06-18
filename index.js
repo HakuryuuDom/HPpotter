@@ -34,7 +34,7 @@ module.exports = function HPpotter(dispatch) {
 	
 	dispatch.hook('S_PLAYER_STAT_UPDATE', 9, event => {
 		currentHp = event.hp.toNumber();
-		maxHp = event.maxHp
+		maxHp = event.maxHp.toNumber();
 		
 		if(!cooldown && (currentHp <= maxHp/3)) {
 			//command.message('trying to use item');
