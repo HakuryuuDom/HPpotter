@@ -36,7 +36,7 @@ module.exports = function HPpotter(dispatch) {
 		currentHp = event.hp.toNumber();
 		maxHp = event.maxHp
 		
-		if(!cooldown && event.target.equals(game.me.gameId) && (currentHp <= maxHp/3)) {
+		if(!cooldown && (currentHp <= maxHp/3)) {
 			//command.message('trying to use item');
 			useItem();
 
