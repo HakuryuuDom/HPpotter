@@ -32,7 +32,7 @@ module.exports = function HPpotter(dispatch) {
 		}
 	})
 	
-	dispatch.hook('S_PLAYER_STAT,UPDATE', 9, event => {
+	dispatch.hook('S_PLAYER_STAT_UPDATE', 9, event => {
 		currentHp = event.hp.toNumber();
 		maxHp = event.maxHp
 		
