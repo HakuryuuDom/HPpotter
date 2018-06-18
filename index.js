@@ -1,35 +1,30 @@
-const Command = require('command')
+const Command = require('command');
+const GameState = require('tera-game-state'); //Requires Caali's proxy :)
+const Vec3 = require('tera-vec3');
 
 module.exports = function HPpotter(dispatch) {
-	
-	 const command = Command(dispatch);
-	
-	let cid = null,
-		player = '',
-		cooldown = false,
-		enabled,
+	const game = GameState(dispatch);
+	const command = Command(dispatch);
+
+	let cooldown = false,
+		enabled = true,
 		battleground,
-		onmount,
 		incontract,
 		inbattleground,
-		alive,
-		inCombat
+		inCombat,
+		playerLocation,
+		playerAngle
 		
 	// #############
 	// ### Magic ###
 	// #############
 	
-	dispatch.hook('S_LOGIN', 1, event => {
-		({cid} = event)
-		player = event.name
-		enabled = true
-	})
 	
 	dispatch.hook('S_START_COOLTIME_ITEM', 1, event => { 
 		let item = event.item
 		let thiscooldown = event.cooldown
 		
-		if(item == 6562) { // has 10 seconds cooldown
+		if(item == 6552) { // has 10 seconds cooldown
 			cooldown = true
 			setTimeout(() => {
 				cooldown = false
@@ -37,38 +32,40 @@ module.exports = function HPpotter(dispatch) {
 		}
 	})
 	
-	dispatch.hook('S_PLAYER_STAT_UPDATE', event => {
-		hp = event.hp.toNumber()
-		maxHp = event.maxHp.toNumber()
+	dispatch.hook('S_PLAYER_STAT,UPDATE', 9, event => {
+		currentHp = event.hp.toNumber();
+		maxHp = event.maxHp
 		
-		if(!cooldown && (hp <= maxHp/3)) {
-			useItem()
+		if(!cooldown && event.target.equals(game.me.gameId) && (currentHp <= maxHp/3)) {
+			//command.message('trying to use item');
+			useItem();
+
 		}
+	})
+
+	dispatch.hook('C_PLAYER_LOCATION', 5, event => {
+		playerLocation = event.loc;
+		playerAngle = event.w;
 	})
 	
 	function useItem() {
 		if (!enabled) return
-		if(alive && inCombat && !onmount && !incontract && !inbattleground) {
-			dispatch.toServer('C_USE_ITEM', 1, {
-				ownerId: cid,
-				item: 6552, // 6552 = Prime Recovery Potable
-				id: 0,
+		if(game.me.alive && inCombat && !game.me.mounted && !incontract && !inbattleground) {
+			//command.message('using pot.')
+			dispatch.toServer('C_USE_ITEM', 3, {
+				gameId: game.me.gameId,
+				id: 6552, // 6562: Prime Replenishment Potable, 184659: Everful Nostrum
+				dbid: 0,
+				target: 0,
+				amount: 1,
+				dest: 0,
+				loc: new Vec3(playerLocation),
+				w: playerAngle,
 				unk1: 0,
 				unk2: 0,
 				unk3: 0,
-				unk4: 1,
-				unk5: 0,
-				unk6: 0,
-				unk7: 0,
-				x: 0, 
-				y: 0, 
-				z: 0, 
-				w: 0, 
-				unk8: 0,
-				unk9: 0,
-				unk10: 0,
-				unk11: 1,
-			})
+				unk4: true
+			});
 		}
 	}
 	
@@ -77,36 +74,23 @@ module.exports = function HPpotter(dispatch) {
 	// ##############
 	
 	dispatch.hook('S_BATTLE_FIELD_ENTRANCE_INFO', 1, event => { battleground = event.zone })
-	dispatch.hook('S_LOAD_TOPO', 1, event => {
-		onmount = false
+	dispatch.hook('S_LOAD_TOPO', 3, event => {
+		//onmount = false
 		incontract = false
 		inbattleground = event.zone == battleground
 	})
 	
-	dispatch.hook('S_SPAWN_ME', 1, event => { 
-		alive = event.alive
-	})
-	
 	dispatch.hook('S_USER_STATUS', 1, event => { 
-		if(event.target.equals(cid)) {
+		if(event.target.equals(game.me.gameId)) {
 			if(event.status == 1) {
 				inCombat = true
 			}
 			else inCombat = false
 		}
 	})
-	
-	dispatch.hook('S_CREATURE_LIFE', 1, event => {
-		if(event.target.equals(cid) && (alive != event.alive)) {
-			if(!alive) {
-				onmount = false
-				incontract = false
-			}
-		}
-	})
 
-	dispatch.hook('S_MOUNT_VEHICLE', 1, event => { if(event.target.equals(cid)) onmount = true })
-	dispatch.hook('S_UNMOUNT_VEHICLE', 1, event => { if(event.target.equals(cid)) onmount = false })
+	//dispatch.hook('S_MOUNT_VEHICLE', 1, event => { if(event.target.equals(cid)) onmount = true })
+	//dispatch.hook('S_UNMOUNT_VEHICLE', 1, event => { if(event.target.equals(cid)) onmount = false })
 
 	dispatch.hook('S_REQUEST_CONTRACT', 1, event => { incontract = true })
 	dispatch.hook('S_ACCEPT_CONTRACT', 1, event => { incontract = false })
@@ -116,10 +100,18 @@ module.exports = function HPpotter(dispatch) {
 	// #################
 	// ### Chat Hook ###
 	// #################
-		
-command.add('HPpotter', () => {
-        enabled = !enabled;
-        let txt = (enabled) ? 'ENABLED' : 'DISABLED';
-        command.message('HPpotter is ' + txt, true);
-    })
-}
+	command.add('hppot', () => {
+		if(enabled) {
+			enabled = false;
+			command.message('HP-potter disabled.');
+		}
+		else if(!enabled) {
+			enabled = true;
+			command.message('HP-potter Enabled.');
+		}
+		else{
+			command.message('Invalid Command.');
+		}
+	});
+	this.destructor = () => { command.remove('hppot') };
+};
