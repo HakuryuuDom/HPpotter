@@ -1,6 +1,6 @@
 {
   "files": {
-    "index.js": "0f04a385d7153980529280bf34f0e3a16c226a9a23104c9383e5becc17c8402e",
+    "index.js": "57dece0facee90b09ac0366312ff0b528ac0bdf13830b42caad4ab1dbcc67e1d",
     "module.json": "8e2f35b215a607cd72974302848ad7aaed1be370f5a166e8fb89572f6c2fe51c"
   },
   "defs": {
@@ -10,7 +10,6 @@
   	"C_USE_ITEM": 3,
   	"S_BATTLE_FIELD_ENTRANCE_INFO": 1,
   	"S_LOAD_TOPO": 3,
-  	"S_USER_STATUS": 1,
   	"S_REQUEST_CONTRACT": 1,
   	"S_ACCEPT_CONTRACT": 1,
   	"S_REJECT_CONTRACT": 1,
