@@ -1,18 +1,12 @@
 {
   "files": {
-    "index.js": "57dece0facee90b09ac0366312ff0b528ac0bdf13830b42caad4ab1dbcc67e1d",
+    "index.js": "31f3cd36833da60e2070ff4f9809d8b367def437631b225ca6b55dc6c5fbdd29",
     "module.json": "8e2f35b215a607cd72974302848ad7aaed1be370f5a166e8fb89572f6c2fe51c"
   },
   "defs": {
   	"S_START_COOLTIME_ITEM": 1,
   	"S_PLAYER_STAT_UPDATE": 9,
   	"C_PLAYER_LOCATION": 5,
-  	"C_USE_ITEM": 3,
-  	"S_BATTLE_FIELD_ENTRANCE_INFO": 1,
-  	"S_LOAD_TOPO": 3,
-  	"S_REQUEST_CONTRACT": 1,
-  	"S_ACCEPT_CONTRACT": 1,
-  	"S_REJECT_CONTRACT": 1,
-  	"S_CANCEL_CONTRACT": 1
+  	"C_USE_ITEM": 3
   }
 }
