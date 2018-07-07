@@ -62,11 +62,11 @@ module.exports = function HPpotter(dispatch) {
 		if(enabled) {
 			enabled = false;
 			command.message('HP-potter disabled.');
-		};
+		}
 		else if(!enabled) {
 			enabled = true;
 			command.message('HP-potter Enabled.');
-		};
+		}
 		else{
 			command.message('Invalid Command.');
 		};
