@@ -1,7 +1,8 @@
 {
   "files": {
-    "index.js": "d5055b809aee81f568bd8e7e0a18a4918218e31457f8c534b66669921874e751",
-    "module.json": "8e2f35b215a607cd72974302848ad7aaed1be370f5a166e8fb89572f6c2fe51c"
+    "index.js": "853487ac2973a5e138c16aa273133f411f46414e4a61a575a8968dd875124d91",
+    "module.json": "c949bf9a4bcdef0ae4e2fac654f6df0fffbb12ffd46861a06638e62a29c7a5e6",
+    "setting_migration.js": "52075a95b557f44884e77307470d6fc26571c9f9f8122fd10c83204f74f4c3e1"
   },
   "defs": {
   	"S_START_COOLTIME_ITEM": 1,

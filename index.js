@@ -1,26 +1,20 @@
-const Command = require('command');
-const GameState = require('tera-game-state');
-
-module.exports = function HPpotter(dispatch) {
-	const game = GameState(dispatch);
-	const command = Command(dispatch);
-	game.initialize('contract');
+module.exports = function HPpotter(mod) {
+	mod.game.initialize('contract');
 
 	let cooldown = false,
-		enabled = true,
 		playerLocation,
 		playerAngle;
 				
-	dispatch.hook('S_START_COOLTIME_ITEM', 1, event => {		
+	mod.hook('S_START_COOLTIME_ITEM', 1, event => {		
 		if(event.item == 6552) { // has 10 seconds cooldown
 			cooldown = true;
 			setTimeout(() => {
-				cooldown = false;
+				cooldown = false
 			}, event.cooldown*1000);
 		};
 	});
 	
-	dispatch.hook('S_PLAYER_STAT_UPDATE', 9, event => {
+	mod.hook('S_PLAYER_STAT_UPDATE', 9, event => {
 		currentHp = event.hp.toNumber();
 		maxHp = event.maxHp.toNumber();
 		
@@ -31,17 +25,17 @@ module.exports = function HPpotter(dispatch) {
 		};
 	});
 
-	dispatch.hook('C_PLAYER_LOCATION', 5, event => {
+	mod.hook('C_PLAYER_LOCATION', 5, event => {
 		playerLocation = event.loc;
 		playerAngle = event.w;
 	});
 	
 	function useItem() {
-		if (!enabled) return;
-		if(game.me.alive && game.me.inCombat && !game.me.mounted && !game.contract.active && !game.me.inBattleground) {
+		if (!mod.settings.enabled) return;
+		if(mod.game.me.alive && mod.game.me.inCombat && !mod.game.me.mounted && !mod.game.contract.active && !mod.game.me.inBattleground) {
 			//command.message('using pot.')
-			dispatch.toServer('C_USE_ITEM', 3, {
-				gameId: game.me.gameId,
+			mod.send('C_USE_ITEM', 3, {
+				gameId: mod.game.me.gameId,
 				id: 6552, // 6562: Prime Replenishment Potable, 184659: Everful Nostrum
 				dbid: 0,
 				target: 0,
@@ -58,18 +52,9 @@ module.exports = function HPpotter(dispatch) {
 	};
 
 
-	command.add('hppot', () => {
-		if(enabled) {
-			enabled = false;
-			command.message('HP-potter disabled.');
-		}
-		else if(!enabled) {
-			enabled = true;
-			command.message('HP-potter Enabled.');
-		}
-		else{
-			command.message('Invalid Command.');
-		};
+	mod.command.add('hppot', () => {
+		mod.settings.enabled = !mod.settings.enabled
+		mod.command.message('[HP-Potter] Module ' + (mod.settings.enabled ? 'en' : 'dis') + 'abled');
 	});
 	this.destructor = () => { command.remove('hppot') };
 };
