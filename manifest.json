@@ -1,13 +1,13 @@
 {
-  "files": {
-    "index.js": "853487ac2973a5e138c16aa273133f411f46414e4a61a575a8968dd875124d91",
-    "module.json": "c949bf9a4bcdef0ae4e2fac654f6df0fffbb12ffd46861a06638e62a29c7a5e6",
-    "setting_migration.js": "52075a95b557f44884e77307470d6fc26571c9f9f8122fd10c83204f74f4c3e1"
-  },
-  "defs": {
-  	"S_START_COOLTIME_ITEM": 1,
-  	"S_PLAYER_STAT_UPDATE": 9,
-  	"C_PLAYER_LOCATION": 5,
-  	"C_USE_ITEM": 3
-  }
+	"files": {
+		"index.js": "6d1acb813edfb16e30643c46c5c30bd59d225c6621a02bbeb9aaba99cc6b0c00",
+		"module.json": "c949bf9a4bcdef0ae4e2fac654f6df0fffbb12ffd46861a06638e62a29c7a5e6",
+		"setting_migration.js": "52075a95b557f44884e77307470d6fc26571c9f9f8122fd10c83204f74f4c3e1"
+	},
+	"defs": {
+		"C_PLAYER_LOCATION": 5,
+		"C_USE_ITEM": 3,
+		"S_PLAYER_STAT_UPDATE": 9,
+		"S_START_COOLTIME_ITEM": 1
+	}
 }

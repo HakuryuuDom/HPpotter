@@ -2,8 +2,7 @@ module.exports = function HPpotter(mod) {
 	mod.game.initialize('contract');
 
 	let cooldown = false,
-		playerLocation,
-		playerAngle;
+		playerLocation
 				
 	mod.hook('S_START_COOLTIME_ITEM', 1, event => {		
 		if(event.item == 6552) { // has 10 seconds cooldown
@@ -26,8 +25,7 @@ module.exports = function HPpotter(mod) {
 	});
 
 	mod.hook('C_PLAYER_LOCATION', 5, event => {
-		playerLocation = event.loc;
-		playerAngle = event.w;
+		playerLocation = event
 	});
 	
 	function useItem() {
@@ -41,8 +39,8 @@ module.exports = function HPpotter(mod) {
 				target: 0,
 				amount: 1,
 				dest: 0,
-				loc: playerLocation,
-				w: playerAngle,
+				loc: playerLocation.loc,
+				w: playerLocation.w,
 				unk1: 0,
 				unk2: 0,
 				unk3: 0,

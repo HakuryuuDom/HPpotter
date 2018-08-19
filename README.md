@@ -1,8 +1,8 @@
 ## Fork by Haku
-requires command and tera-game-state
+requires Caali's Proxy: 
 
 # HP-potter  
-A tera-proxy module that automatically uses a Prime Recovery Potable when below 33% HP.  
+A tera-proxy module that automatically uses a Prime Recovery Potable when below 10% HP.  
 Only uses items when you are alive and in combat.  
   
 ## Usage  
